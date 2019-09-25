@@ -1,32 +1,25 @@
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/booksapi';
-
-let booksPromise = MongoClient.connect(url, {autoReconnect: false, bufferMaxEntries: 0, useNewUrlParser: true,  useUnifiedTopology: true }).then(function(client) {
-    return client.db().collection("books");
-});
+const bookRepository = require("./bookRepository");
 
 module.exports = {
     async createOrUpdate (req, res, next) {
         try {
+            // HTTP
             const {title, authors, isbn, description} = req.body;
-            const books = await booksPromise;
-            await books.updateOne(
-                {isbn: isbn},
-                {$set : {title, authors, isbn, description} },
-                {upsert: true});
+            // JS
+            await bookRepository.createOrUpdate({title, authors, isbn, description});
+            // HTTP
             res.json({title, authors, isbn, description});
         } catch (e) {
             next(e);
         }
     },
     async details (req, res, next) {
-        const isbn = req.params.isbn;
         try {
-            const books = await booksPromise;
-            const book = await books.findOne(
-                {isbn},
-                {projection: {_id: 0}}
-            );
+            // HTTP
+            const isbn = req.params.isbn;
+            // JS
+            const book = await bookRepository.findOne(isbn);
+            // HTTP
             res.json(book);
         } catch(e) {
             next(e);
