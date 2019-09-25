@@ -44,7 +44,7 @@ app.post("/book", function(req, res) {
 
 app.get("/book/:isbn", function (req, res) {
     const isbn = req.params.isbn;
-    booksPromise
+    promise
         .then(function (books) {
             return books.findOne(
                 {isbn},
