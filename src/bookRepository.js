@@ -14,6 +14,10 @@ module.exports = {
             {upsert: true}
         );
     },
+    async findAll() {
+        const books = await booksPromise;
+        return books.find().toArray();
+    },
     async delete(isbn) {
         const books = await booksPromise;
         return await books.deleteOne({isbn});

@@ -1,6 +1,19 @@
 module.exports = {
-    createOrUpdate(isbn , res) {
+    createOrUpdate(isbn, res) {
         res.redirect("/book/" + isbn);
+    },
+    list(books, res) {
+        res.format({
+            "default"() {
+                res.json(books);
+            },
+            "text/html"() {
+                res.render("books", {books});
+            },
+            "application/json"() {
+                res.json(books);
+            }
+        });
     },
     details({book, layout}, res, next) {
         book ? res.format({

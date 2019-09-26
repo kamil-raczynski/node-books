@@ -28,6 +28,11 @@ module.exports = ({bookService, bookRepository}) => withErrorHandling({
         // HTTP
         responses.createOrUpdate(req.body.isbn, res);
     },
+    async getList(req, res, next) {
+        const books = await bookRepository.findAll();
+
+        responses.list(books, res);
+    },
     async delete(req, res, next) {
         // HTTP
         const isbn = req.params.isbn;
