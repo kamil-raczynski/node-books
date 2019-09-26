@@ -15,7 +15,9 @@
     "cross-env": "6.0.0",
     "mocha": "6.2.0",
     "nodemon": "1.19.2",
+    "superagent-use": "0.1.0",
     "supertest": "4.0.2",
+    "supertest-capture-error": "1.0.0",
     "why-is-node-running": "2.1.0"
   }
 }

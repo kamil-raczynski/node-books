@@ -16,6 +16,17 @@ module.exports = {
             next(e);
         }
     },
+    async delete(req, res, next) {
+        try {
+            const isbn = req.params.isbn;
+
+            await bookRepository.delete(isbn);
+
+            res.status(204).end();
+        } catch (e) {
+            next(e);
+        }
+    },
     async details (req, res, next) {
         try {
             // HTTP
@@ -23,7 +34,11 @@ module.exports = {
             // JS
             const book = await bookRepository.findOne(isbn);
             // HTTP
-            res.json(book);
+            if(book) {
+                res.json(book);
+            } else {
+                next();
+            }
         } catch(e) {
             next(e);
         }

@@ -3,7 +3,9 @@ const app = require("../../src/app");
 
 describe('Book inventory', function () {
     it('allows to stock up the items', async function () {
-        const createResult = await httpClient(app)
+        const request = httpClient(app);
+
+        const createResult = await request
             .post('/book')
             .send({
                 title: "JavaScript in Action",
@@ -14,13 +16,21 @@ describe('Book inventory', function () {
             .set('Content-Type', 'application/json')
             .expect(302);
 
-        await httpClient(app).get(createResult.header.location).expect(200, {
+        await request.get(createResult.header.location).expect(200, {
             title: "JavaScript in Action",
             slug: "javascript-in-action",
             authors: ["James Smith", "Kate Donovan"],
             isbn: "0123456789",
             description: "The ultimate JS book!"
         });
+
+        await request
+            .delete(createResult.header.location)
+            .expect(204);
+
+        await request
+            .get(createResult.header.location)
+            .expect(404);
     })
 });
 

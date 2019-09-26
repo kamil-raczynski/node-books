@@ -14,6 +14,10 @@ module.exports = {
             {upsert: true}
         );
     },
+    async delete(isbn) {
+        const books = await booksPromise;
+        return await books.deleteOne({isbn});
+    },
     async findOne(isbn) {
         const books = await booksPromise;
         return books.findOne(
