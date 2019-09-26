@@ -16,6 +16,7 @@ describe('Book inventory', function () {
 
         await httpClient(app).get(createResult.header.location).expect(200, {
             title: "JavaScript in Action",
+            slug: "javascript-in-action",
             authors: ["James Smith", "Kate Donovan"],
             isbn: "0123456789",
             description: "The ultimate JS book!"
