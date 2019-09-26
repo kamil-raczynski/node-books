@@ -1,17 +1,16 @@
-const bookRepository = require("./bookRepository");
-const bookService = require("./bookService");
-const validateBook = require("./validateBook");
+// const bookRepository = require("./bookRepository");
+// const bookService = require("./bookService");
 
-module.exports = {
+module.exports = ({bookService, bookRepository}) => ({
     async createOrUpdate (req, res, next) {
         try {
             // HTTP
-            const {title, authors, isbn, description} = req.body;
+            // const {title, authors, isbn, description} = req.body;
 
             // JS
-            await bookService.createOrUpdate({title, authors, isbn, description});
+            await bookService.createOrUpdate(req.body);
             // HTTP
-            res.redirect("/book/" + isbn);
+            res.redirect("/book/" + req.body.isbn);
         } catch (e) {
             next(e);
         }
@@ -43,4 +42,4 @@ module.exports = {
             next(e);
         }
     }
-};
+});
