@@ -1,9 +1,8 @@
-const bookRepository = require("./bookRepository");
 const makeSlug = require("./makeSlug");
 
-module.exports = {
+module.exports = bookRepository => ({
     async createOrUpdate({title, authors, isbn, description}) {
         const slug = makeSlug(title);
         return await bookRepository.createOrUpdate({title, slug, authors, isbn, description});
     }
-};
+});
