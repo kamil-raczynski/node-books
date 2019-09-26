@@ -8,7 +8,7 @@ module.exports = {
             // JS
             await bookRepository.createOrUpdate({title, authors, isbn, description});
             // HTTP
-            res.json({title, authors, isbn, description});
+            res.redirect("/book/" + isbn);
         } catch (e) {
             next(e);
         }
