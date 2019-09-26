@@ -44,7 +44,18 @@ module.exports = ({bookService, bookRepository}) => withErrorHandling({
         const book = await bookRepository.findOne(isbn);
         // HTTP
         if (book) {
-            res.json(book);
+            res.format({
+                'text/html'() {
+                    // reprezentacja HTML
+                    res.send("HTML");
+                },
+                'application/json'() {
+                    res.json(book);
+                },
+                'default'() {
+                    res.json(book);
+                }
+            });
         } else {
             next();
         }
