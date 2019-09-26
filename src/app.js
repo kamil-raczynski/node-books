@@ -1,23 +1,29 @@
 const express = require("express");
 const path = require("path");
-const app = express();
-const bookRoutes = require("./bookRoutes");
-const {clientError, serverError} = require("./error");
 
-app.use(express.json());
+module.exports = (connection) => {
+    const app = express();
+    const bookRepository = require("./bookRepository")(connection);
+    const bookService = require("./bookService")(bookRepository);
+    const bookController = require("./bookController")({bookService, bookRepository});
+    const bookRoutes = require("./bookRoutes")(bookController);
+    const {clientError, serverError} = require("./error");
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
+    app.use(express.json());
 
-app.use(function (req, res, next) {
-    // console.log("new requst at " + new Date());
-    next();
-});
+    app.set("views", path.join(__dirname, "views"));
+    app.set("view engine", "hbs");
 
-app.use("/", bookRoutes);
+    app.use(function (req, res, next) {
+        // console.log("new requst at " + new Date());
+        next();
+    });
 
-app.use(clientError);
+    app.use("/", bookRoutes);
 
-app.use(serverError);
+    app.use(clientError);
 
-module.exports = app;
+    app.use(serverError);
+
+    return app;
+};
