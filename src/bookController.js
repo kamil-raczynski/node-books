@@ -29,7 +29,8 @@ module.exports = ({bookService, bookRepository}) => withErrorHandling({
         responses.createOrUpdate(req.body.isbn, res);
     },
     async getList(req, res, next) {
-        const books = await bookRepository.findAll();
+        const {start} = req.query;
+        const books = await bookRepository.findAll({start, limit: 10});
 
         responses.list(books, res);
     },

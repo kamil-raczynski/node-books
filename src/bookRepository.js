@@ -9,9 +9,9 @@ module.exports = (connection) => {
                 {upsert: true}
             );
         },
-        async findAll() {
+        async findAll({start, limit}) {
             // const books = await booksPromise;
-            return books.find().toArray();
+            return books.find().skip(start * limit).limit(limit).toArray();
         },
         async delete(isbn) {
             // const books = await booksPromise;
