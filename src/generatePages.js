@@ -2,7 +2,7 @@ module.exports = function generatePages({ current, maxPages }) {
     const start = Math.max(0, current - 5);
     const count = current < maxPages ? Math.min(10, maxPages - start) : 0;
 
-    return range(count).map((_, i) => ({
+    return range(count).map(i => ({
         start: start + i,
         isCurrent: start + i === current
     }));
